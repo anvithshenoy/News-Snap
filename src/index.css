@@ -1,0 +1,44 @@
+:root {
+  --light: #f0f8ff;
+  --dark: #111;
+  --font-title: 'Bebas Neue', Geneva, Verdana, sans-serif;
+  --font-body: 'Nunito Sans', Geneva, Verdana, sans-serif;
+  --bg-paper: var(--light) url(/assets/paper_fibers.png);
+
+  scrollbar-width: thin;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-paper);
+  background-blend-mode: multiply;
+  overflow-x: hidden;
+  width: 100vw;
+  width: 100svw;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  margin: 0;
+}
+
+div#root {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.top-heading {
+  text-indent: 1rem;
+  width: 100%;
+}
+
+.text-paper {
+  background: var(--bg-paper);
+  background-blend-mode: multiply;
+  color: var(--light);
+  font-family: var(--font-title);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

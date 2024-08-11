@@ -1,0 +1,8 @@
+nav {
+  display: flex;
+  flex-direction: column;
+  width: 25vw;
+  height: 100vh;
+  z-index: 999;
+  /* border: 1px solid red; */
+}
