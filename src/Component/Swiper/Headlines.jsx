@@ -1,51 +1,36 @@
 import * as React from 'react'
-import axios from 'axios'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, EffectCards } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/effect-cards'
 import './Swiper.css'
-import { Typography } from '@mui/material'
+import Typography from '@mui/material/Typography'
+import { fetchNews } from '../../utils/fetchNews'
 import logo from '/assets/newspaper.jpg'
-import FullScreenDrawer from '../Drawer/FullscreenDrawer'
+import PropTypes from 'prop-types'
 
-const Headlines = () => {
+const Headlines = ({ handleSlideClick }) => {
   const [headlines, setHeadlines] = React.useState([])
-  const [selectedArticle, setSelectedArticle] = React.useState(null)
-  const [openDialog, setOpenDialog] = React.useState(false)
-  const URL = import.meta.env.VITE_BACKEND_URL
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.post(`${URL}/api/headlines`)
-      console.log(response.data.articles)
-      setHeadlines(response.data.articles)
-    } catch (error) {
-      console.error('Error fetching data:', error)
-    }
-  }
 
   React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetchNews('headlines')
+        setHeadlines(response.data.articles)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+
     fetchData()
   }, [])
-
-  const handleSlideClick = (article) => {
-    setSelectedArticle(article)
-    setOpenDialog(true)
-  }
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false)
-    setSelectedArticle(null)
-  }
 
   return (
     <div id='slide-container'>
       <Swiper
         autoplay={{
-          delay: 5000,
-          disableOnInteraction: true,
+          delay: 7000,
           pauseOnMouseEnter: true,
         }}
         centeredSlides={true}
@@ -82,14 +67,12 @@ const Headlines = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-
-      <FullScreenDrawer
-        open={openDialog}
-        handleClose={handleCloseDialog}
-        article={selectedArticle}
-      />
     </div>
   )
+}
+
+Headlines.propTypes = {
+  handleSlideClick: PropTypes.func.isRequired,
 }
 
 export default Headlines

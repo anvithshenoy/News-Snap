@@ -1,13 +1,21 @@
-import SwipeableDrawer from '@mui/material/SwipeableDrawer'
+import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
+import Divider from '@mui/material/Divider'
+import Link from '@mui/material/Link'
 import IconButton from '@mui/material/IconButton'
+import SwipeableDrawer from '@mui/material/SwipeableDrawer'
 import Typography from '@mui/material/Typography'
-import PropTypes from 'prop-types'
 import ArrowLeftOutlined from '@mui/icons-material/ArrowLeftOutlined'
-import { Box, Chip, Link } from '@mui/material'
-import Background from '/assets/bg.jpg'
 import IosShareOutlined from '@mui/icons-material/IosShareOutlined'
+import Background from '/assets/bg.jpg'
+import PropTypes from 'prop-types'
 
-const FullScreenDrawer = ({ open, handleClose, article }) => {
+const FullScreenDrawer = ({
+  category = 'headlines',
+  open,
+  handleClose,
+  article,
+}) => {
   const altDescription = `This content was written by ${article?.author} and published on ${article?.publishDate} at ${article?.publishTime}. For the complete story, click the link to `
 
   return (
@@ -59,43 +67,42 @@ const FullScreenDrawer = ({ open, handleClose, article }) => {
           <IosShareOutlined fontSize='small' />
         </IconButton>
       </Box>
+
       <Box
-        width={'calc(100% - 5rem)'}
+        width={'calc(100% - 2.5rem)'}
         borderRadius={'2rem 2rem 0 0'}
-        padding={5}
+        display={'flex'}
+        paddingBlock={5}
+        paddingInline={2.5}
+        gap={1}
         sx={{
           background: `var(--light)`,
           filter: 'drop-shadow(-4px -4px 4px #111)',
+          flexDirection: { xs: 'column', sm: 'row' },
         }}
       >
-        <Typography
-          variant='h4'
-          fontFamily={'var(--font-title)'}
-          gutterBottom
-        >
-          {article?.title}
-        </Typography>
-        <Typography
-          variant='body1'
-          fontFamily={'var(--font-body)'}
-        >
-          {article?.description || altDescription}
-          <Link
-            href={article?.url}
-            target='_blank'
-          >
-            read more
-          </Link>
-        </Typography>
-
         <Box
-          paddingBlock={2}
           display={'flex'}
           flexWrap={'wrap'}
-          justifyContent={'flex-end'}
-          alignItems={'center'}
+          justifyContent={'flex-start'}
+          alignItems={'flex-end'}
           gap={1}
+          sx={{
+            width: { sm: '15%' },
+            flexDirection: { xs: 'row', sm: 'column' },
+          }}
         >
+          <Chip
+            color='primary'
+            label={
+              <Typography
+                variant='h6'
+                fontFamily={'var(--font-title)'}
+              >
+                {category}
+              </Typography>
+            }
+          />
           {['author', 'publishDate', 'publishTime'].map((text) => (
             <Chip
               key={text}
@@ -110,14 +117,41 @@ const FullScreenDrawer = ({ open, handleClose, article }) => {
             />
           ))}
         </Box>
+        <Divider
+          flexItem
+          orientation='vertical'
+        />
+
+        <Box
+          display={'flex'}
+          flexDirection={'column'}
+        >
+          <Typography
+            variant='h4'
+            fontFamily={'var(--font-title)'}
+            gutterBottom
+          >
+            {article?.title}
+          </Typography>
+          <Typography
+            variant='body1'
+            fontFamily={'var(--font-body)'}
+          >
+            {article?.description || altDescription}
+            <Link
+              href={article?.url}
+              target='_blank'
+            >
+              read more
+            </Link>
+          </Typography>
+        </Box>
       </Box>
     </SwipeableDrawer>
   )
 }
 
 FullScreenDrawer.propTypes = {
-  open: PropTypes.bool,
-  handleClose: PropTypes.func,
   article: PropTypes.shape({
     author: PropTypes.string,
     title: PropTypes.string,
@@ -126,7 +160,10 @@ FullScreenDrawer.propTypes = {
     urlToImage: PropTypes.string,
     publishDate: PropTypes.string,
     publishTime: PropTypes.string,
-  }),
+  }).isRequired,
+  handleClose: PropTypes.func.isRequired,
+  category: PropTypes.string,
+  open: PropTypes.bool,
 }
 
 export default FullScreenDrawer
