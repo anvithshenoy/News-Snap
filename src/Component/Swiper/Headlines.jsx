@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, EffectCards } from 'swiper/modules'
 import 'swiper/css'
@@ -6,72 +5,74 @@ import 'swiper/css/navigation'
 import 'swiper/css/effect-cards'
 import './Swiper.css'
 import Typography from '@mui/material/Typography'
-import { fetchNews } from '../../utils/fetchNews'
-import logo from '/assets/newspaper.jpg'
+import logo from '/assets/newspaper.webp'
 import PropTypes from 'prop-types'
 
-const Headlines = ({ handleSlideClick }) => {
-  const [headlines, setHeadlines] = React.useState([])
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetchNews('headlines')
-        setHeadlines(response.data.articles)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    }
-
-    fetchData()
-  }, [])
-
+const Headlines = ({ headlines, handleSlideClick }) => {
   return (
-    <div id='slide-container'>
-      <Swiper
-        autoplay={{
-          delay: 7000,
-          pauseOnMouseEnter: true,
-        }}
-        centeredSlides={true}
-        cardsEffect={{
-          perSlideOffset: 75,
-          perSlideRotate: 3,
-          rotate: false,
-          slideShadows: true,
-        }}
-        effect='cards'
-        grabCursor={true}
-        modules={[Autoplay, EffectCards]}
-        rewind={true}
+    <>
+      <Typography
+        variant='h3'
+        fontFamily={'var(--font-title)'}
+        className='top-heading'
       >
-        {headlines.map((article) => (
-          <SwiperSlide
-            key={article?.id}
-            style={{
-              background: `#11111175 url(${article?.urlToImage || logo})`,
-            }}
-            onClick={() => handleSlideClick(article)}
-          >
-            <div className='slide'>
+        Today&apos;s Top {headlines.length} Headlines
+      </Typography>
+      <div id='slide-container'>
+        <Swiper
+          autoplay={{
+            delay: 7000,
+            pauseOnMouseEnter: true,
+          }}
+          centeredSlides={true}
+          cardsEffect={{
+            perSlideOffset: 75,
+            perSlideRotate: 3,
+            rotate: false,
+            slideShadows: true,
+          }}
+          effect='cards'
+          grabCursor={true}
+          modules={[Autoplay, EffectCards]}
+          rewind={true}
+        >
+          {headlines.map((article) => (
+            <SwiperSlide
+              key={article?.id}
+              style={{
+                background: `#11111175 url(${article?.urlToImage || logo})`,
+              }}
+              onClick={() => handleSlideClick(article)}
+            >
               <Typography
-                variant='h6'
-                fontFamily={'var(--font-body)'}
-                sx={{
-                  textShadow: '2px 2px 2px #111',
-                }}
+                variant='h5'
+                align='center'
+                className='read-me'
+                fontFamily={'var(--font-title)'}
               >
-                {article.title}
+                Read more details
               </Typography>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>
+              <div className='slide'>
+                <Typography
+                  variant='h6'
+                  fontFamily={'var(--font-body)'}
+                  sx={{
+                    textShadow: '2px 2px 2px #111',
+                  }}
+                >
+                  {article.title}
+                </Typography>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+    </>
   )
 }
 
 Headlines.propTypes = {
+  headlines: PropTypes.array.isRequired,
   handleSlideClick: PropTypes.func.isRequired,
 }
 

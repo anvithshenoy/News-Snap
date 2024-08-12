@@ -1,9 +1,11 @@
-import { Container, Typography } from '@mui/material'
-import Headlines from './Component/Swiper/Headlines'
+import { useState } from 'react'
+import Container from '@mui/material/Container'
 import Drawer from './Component/Drawer/Drawer'
 import FullScreenDrawer from './Component/Drawer/FullscreenDrawer'
-import React from 'react'
-import './App.css'
+import Headlines from './Component/Swiper/Headlines'
+import { fetchNews } from './utils/fetchNews'
+import { useQuery } from '@tanstack/react-query'
+import Spinner from './Component/Spinner/BookSpinner'
 
 const categories = [
   'Business',
@@ -15,11 +17,23 @@ const categories = [
 ]
 
 const App = () => {
-  const [selectedArticle, setSelectedArticle] = React.useState(null)
-  const [openDialog, setOpenDialog] = React.useState(false)
+  const [selectedArticle, setSelectedArticle] = useState(null)
+  const [openDialog, setOpenDialog] = useState(false)
 
-  const handleSlideClick = (article) => {
-    setSelectedArticle(article)
+  const {
+    data: headlines = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['news'],
+    queryFn: () => fetchNews('headlines'),
+    keepPreviousData: true,
+    staleTime: 60000,
+    cacheTime: 300000,
+  })
+
+  const handleSlideClick = (article, category) => {
+    setSelectedArticle({ article, category })
     setOpenDialog(true)
   }
 
@@ -28,31 +42,43 @@ const App = () => {
     setSelectedArticle(null)
   }
 
-  return (
-    // <div id='homepage'></div>
+  return isLoading ? (
+    <Container
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100vw',
+        height: '100vh',
+      }}
+    >
+      <Spinner />
+    </Container>
+  ) : error ? (
+    <pre>Error</pre>
+  ) : (
     <Container
       disableGutters
       maxWidth='xl'
     >
-      <Typography
-        variant='h3'
-        fontFamily={'var(--font-title)'}
-        className='top-heading'
-      >
-        Top Headlines
-      </Typography>
-      <Headlines handleSlideClick={handleSlideClick} />
-      <Drawer
-        categories={categories}
-        handleSlideClick={handleSlideClick}
-      />
-
-      <FullScreenDrawer
-        category=''
-        open={openDialog}
-        handleClose={handleCloseDialog}
-        article={selectedArticle}
-      />
+      <>
+        <Headlines
+          headlines={headlines}
+          handleSlideClick={handleSlideClick}
+        />
+        <Drawer
+          categories={categories}
+          handleSlideClick={handleSlideClick}
+        />
+      </>
+      {selectedArticle && (
+        <FullScreenDrawer
+          category={selectedArticle.category}
+          open={openDialog}
+          handleClose={handleCloseDialog}
+          article={selectedArticle.article}
+        />
+      )}
     </Container>
   )
 }

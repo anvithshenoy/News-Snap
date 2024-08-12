@@ -3,7 +3,7 @@
   --dark: #111;
   --font-title: 'Bebas Neue', Geneva, Verdana, sans-serif;
   --font-body: 'Nunito Sans', Geneva, Verdana, sans-serif;
-  --bg-paper: var(--light) url(/assets/paper_fibers.png);
+  --bg-paper: var(--light) url(/assets/paper_fibers.webp);
 
   scrollbar-width: thin;
 }

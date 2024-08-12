@@ -33,9 +33,30 @@
         cursor: pointer;
         filter: drop-shadow(-2px 0 2px var(--dark))
           drop-shadow(2px 0 2px var(--dark));
+        &:hover {
+          .read-me {
+            opacity: 100;
+          }
+        }
       }
       &:not(.swiper-slide-visible) {
         background-blend-mode: darken;
+      }
+
+      .read-me {
+        position: absolute;
+        z-index: 999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0.25rem 1rem;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        background: #111111aa;
+        color: var(--light);
+        text-transform: uppercase;
+        transition: all 0.5s ease-in-out;
       }
 
       .slide {
@@ -47,6 +68,7 @@
         justify-content: flex-end;
         padding: 1rem;
         background: linear-gradient(transparent, var(--dark));
+        transition: all 1s ease-in-out;
 
         .index {
           position: absolute;

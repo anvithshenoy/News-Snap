@@ -7,8 +7,11 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer'
 import Typography from '@mui/material/Typography'
 import ArrowLeftOutlined from '@mui/icons-material/ArrowLeftOutlined'
 import IosShareOutlined from '@mui/icons-material/IosShareOutlined'
-import Background from '/assets/bg.jpg'
+import Background from '/assets/bg.webp'
 import PropTypes from 'prop-types'
+import Tooltip from '@mui/material/Tooltip'
+import { useState } from 'react'
+import AlertDialog from '../Dialog/Dialog'
 
 const FullScreenDrawer = ({
   category = 'headlines',
@@ -17,137 +20,171 @@ const FullScreenDrawer = ({
   article,
 }) => {
   const altDescription = `This content was written by ${article?.author} and published on ${article?.publishDate} at ${article?.publishTime}. For the complete story, click the link to `
+  const [dialogOpen, setDialogOpen] = useState(false)
+
+  const handleDialogOpen = () => {
+    setDialogOpen(true)
+  }
+
+  const handleDialogClose = () => {
+    setDialogOpen(false)
+  }
 
   return (
-    <SwipeableDrawer
-      anchor='bottom'
-      open={open}
-      onClose={handleClose}
-      onOpen={handleClose}
-      sx={{
-        '& .MuiPaper-root': {
-          height: '100vh',
-          background: `url(${article?.urlToImage || Background})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        },
-      }}
-    >
-      <Box
-        display={'flex'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-        width={'calc(100% - 2rem)'}
-        padding={1}
-      >
-        <IconButton
-          onClick={handleClose}
-          aria-label='close'
-          size='small'
-          color='default'
-          sx={{
-            filter: 'invert()',
-          }}
-        >
-          <ArrowLeftOutlined fontSize='large' />
-        </IconButton>
-        <IconButton
-          onClick={handleClose}
-          aria-label='close'
-          size='large'
-          color='default'
-          sx={{
-            filter: 'invert()',
-          }}
-        >
-          <IosShareOutlined fontSize='small' />
-        </IconButton>
-      </Box>
-
-      <Box
-        width={'calc(100% - 2.5rem)'}
-        borderRadius={'2rem 2rem 0 0'}
-        display={'flex'}
-        paddingBlock={5}
-        paddingInline={2.5}
-        gap={1}
+    <>
+      <SwipeableDrawer
+        anchor='bottom'
+        open={open}
+        onClose={handleClose}
+        onOpen={handleClose}
         sx={{
-          background: `var(--light)`,
-          filter: 'drop-shadow(-4px -4px 4px #111)',
-          flexDirection: { xs: 'column', sm: 'row' },
+          '& .MuiPaper-root': {
+            height: '100vh',
+            background: `url(${article?.urlToImage || Background})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          },
         }}
       >
         <Box
           display={'flex'}
-          flexWrap={'wrap'}
-          justifyContent={'flex-start'}
-          alignItems={'flex-end'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          width={'calc(100% - 2rem)'}
+          padding={1}
+        >
+          <Tooltip
+            title={'Back to Homepage'}
+            arrow
+            enterDelay={3000}
+          >
+            <IconButton
+              onClick={handleClose}
+              aria-label='close'
+              size='small'
+              color='default'
+              sx={{
+                filter: 'invert()',
+              }}
+            >
+              <ArrowLeftOutlined
+                fontSize='large'
+                sx={{
+                  transform: 'rotate(0)',
+                  transition: 'transform 0.3s ease-in-out',
+                  [`&:hover`]: {
+                    transform: 'rotate(-90deg)',
+                  },
+                }}
+              />
+            </IconButton>
+          </Tooltip>
+          <IconButton
+            onClick={handleDialogOpen}
+            aria-label='share'
+            size='large'
+            color='default'
+            sx={{
+              filter: 'invert()',
+            }}
+          >
+            <IosShareOutlined fontSize='small' />
+          </IconButton>
+        </Box>
+
+        <Box
+          width={'calc(100% - 2.5rem)'}
+          borderRadius={'2rem 2rem 0 0'}
+          display={'flex'}
+          paddingBlock={5}
+          paddingInline={2.5}
           gap={1}
           sx={{
-            width: { sm: '15%' },
-            flexDirection: { xs: 'row', sm: 'column' },
+            background: `var(--light)`,
+            filter: 'drop-shadow(-4px -4px 4px #111)',
+            flexDirection: { xs: 'column', sm: 'row' },
           }}
         >
-          <Chip
-            color='primary'
-            label={
-              <Typography
-                variant='h6'
-                fontFamily={'var(--font-title)'}
-              >
-                {category}
-              </Typography>
-            }
-          />
-          {['author', 'publishDate', 'publishTime'].map((text) => (
+          <Box
+            display={'flex'}
+            flexWrap={'wrap'}
+            justifyContent={'flex-start'}
+            alignItems={'flex-end'}
+            gap={1}
+            sx={{
+              width: { sm: '15%' },
+              flexDirection: { xs: 'row', sm: 'column' },
+            }}
+          >
             <Chip
-              key={text}
+              color='primary'
               label={
                 <Typography
                   variant='h6'
                   fontFamily={'var(--font-title)'}
                 >
-                  {article && article[text]}
+                  {category}
                 </Typography>
               }
             />
-          ))}
-        </Box>
-        <Divider
-          flexItem
-          orientation='vertical'
-        />
+            {['author', 'publishDate', 'publishTime'].map((text) => (
+              <Chip
+                key={text}
+                label={
+                  <Typography
+                    variant='h6'
+                    fontFamily={'var(--font-title)'}
+                  >
+                    {article && article[text]}
+                  </Typography>
+                }
+              />
+            ))}
+          </Box>
+          <Divider
+            flexItem
+            orientation='vertical'
+          />
 
-        <Box
-          display={'flex'}
-          flexDirection={'column'}
-        >
-          <Typography
-            variant='h4'
-            fontFamily={'var(--font-title)'}
-            gutterBottom
+          <Box
+            display={'flex'}
+            flexDirection={'column'}
           >
-            {article?.title}
-          </Typography>
-          <Typography
-            variant='body1'
-            fontFamily={'var(--font-body)'}
-          >
-            {article?.description || altDescription}
-            <Link
-              href={article?.url}
-              target='_blank'
+            <Typography
+              variant='h4'
+              fontFamily={'var(--font-title)'}
+              gutterBottom
             >
-              read more
-            </Link>
-          </Typography>
+              {article?.title}
+            </Typography>
+            <Typography
+              variant='body1'
+              fontFamily={'var(--font-body)'}
+            >
+              {article?.description || altDescription}
+              <Link
+                href={article?.url}
+                target='_blank'
+              >
+                read more
+              </Link>
+            </Typography>
+          </Box>
         </Box>
-      </Box>
-    </SwipeableDrawer>
+      </SwipeableDrawer>
+
+      <AlertDialog
+        shareTitle={article.title}
+        shareUrl={article.url}
+        shareText={article.description || altDescription}
+        open={dialogOpen}
+        handleClose={handleDialogClose}
+      />
+    </>
   )
 }
 
@@ -160,10 +197,10 @@ FullScreenDrawer.propTypes = {
     urlToImage: PropTypes.string,
     publishDate: PropTypes.string,
     publishTime: PropTypes.string,
-  }).isRequired,
+  }),
   handleClose: PropTypes.func.isRequired,
   category: PropTypes.string,
-  open: PropTypes.bool,
+  open: PropTypes.bool.isRequired,
 }
 
 export default FullScreenDrawer
