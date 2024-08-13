@@ -1,10 +1,10 @@
-import { CardActionArea, Chip } from '@mui/material'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
+import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
-import logo from '/assets/newspaper.webp'
+import ArticleLabel from '../Chip/ArticleLabel'
 import PropTypes from 'prop-types'
 
 const ArticleCard = ({ article, category, handleSlideClick }) => {
@@ -14,6 +14,7 @@ const ArticleCard = ({ article, category, handleSlideClick }) => {
         onClick={() => handleSlideClick(article)}
         sx={{
           display: 'flex',
+          flexDirection: 'column-reverse',
           justifyContent: 'space-between',
           height: '100%',
           width: '100%',
@@ -22,7 +23,6 @@ const ArticleCard = ({ article, category, handleSlideClick }) => {
         <Box
           display={'flex'}
           flexDirection={'column'}
-          sx={{ maxWidth: '75%' }}
         >
           <CardContent
             sx={{
@@ -37,6 +37,7 @@ const ArticleCard = ({ article, category, handleSlideClick }) => {
             <Typography
               component='div'
               variant='body1'
+              fontFamily={'var(--font-body)'}
             >
               {article.title}
             </Typography>
@@ -44,63 +45,32 @@ const ArticleCard = ({ article, category, handleSlideClick }) => {
               display={'flex'}
               flexWrap={'wrap'}
               gap={1}
+              width={'100%'}
             >
-              <Chip
-                label={
-                  <Typography
-                    variant='caption'
-                    color='text.secondary'
-                    component='div'
-                  >
-                    {category}
-                  </Typography>
-                }
-              />
-              <Chip
-                label={
-                  <Typography
-                    variant='caption'
-                    color='text.secondary'
-                    component='div'
-                  >
-                    {article.author}
-                  </Typography>
-                }
-              />
-              <Chip
-                label={
-                  <Typography
-                    variant='caption'
-                    color='text.secondary'
-                    component='div'
-                  >
-                    {article.publishDate}
-                  </Typography>
-                }
-              />
-              <Chip
-                label={
-                  <Typography
-                    variant='caption'
-                    color='text.secondary'
-                    component='div'
-                  >
-                    {article.publishTime}
-                  </Typography>
-                }
-              />
+              <ArticleLabel label={category} />
+              <ArticleLabel label={article.author} />
+              <ArticleLabel label={article.publishDate} />
+              <ArticleLabel label={article.publishTime} />
             </Box>
           </CardContent>
         </Box>
         <CardMedia
           component='img'
-          image={article.urlToImage || logo}
-          alt={article.id}
+          image={
+            article.urlToImage ??
+            '/assets/newspaper_jvk4ph/newspaper_jvk4ph_c_scale,w_640.webp'
+          }
+          srcSet='
+          /assets/newspaper_jvk4ph/newspaper_jvk4ph_c_scale,w_200.webp 200w,
+          /assets/newspaper_jvk4ph/newspaper_jvk4ph_c_scale,w_377.webp 377w,
+          /assets/newspaper_jvk4ph/newspaper_jvk4ph_c_scale,w_514.webp 514w,
+          /assets/newspaper_jvk4ph/newspaper_jvk4ph_c_scale,w_607.webp 607w,
+          /assets/newspaper_jvk4ph/newspaper_jvk4ph_c_scale,w_640.webp 640w'
+          alt={`Image for article: ${article.id}`}
           sx={{
-            minHeight: { xs: 225, sm: '25vh' },
-            height: '100%',
+            height: article.urlToImage ? '100%' : '35vh',
             maxHeight: '100%',
-            maxWidth: '25%',
+            width: '100%',
             objectFit: 'cover',
           }}
         />
@@ -108,8 +78,6 @@ const ArticleCard = ({ article, category, handleSlideClick }) => {
     </Card>
   )
 }
-
-export default ArticleCard
 
 ArticleCard.propTypes = {
   article: PropTypes.shape({
@@ -130,3 +98,5 @@ ArticleCard.propTypes = {
   ]).isRequired,
   handleSlideClick: PropTypes.func.isRequired,
 }
+
+export default ArticleCard

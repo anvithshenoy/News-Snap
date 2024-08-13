@@ -21,6 +21,7 @@
       font-size: 2cap;
       font-weight: bold;
       color: var(--light);
+      background-color: #111111aa;
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
@@ -29,7 +30,6 @@
         drop-shadow(1px 0 1px var(--dark));
 
       &:is(.swiper-slide-visible) {
-        background-blend-mode: luminosity;
         cursor: pointer;
         filter: drop-shadow(-2px 0 2px var(--dark))
           drop-shadow(2px 0 2px var(--dark));

@@ -3,7 +3,7 @@ import AxiosInstance from '../api/AxiosInstance'
 export const fetchNews = async (type) => {
   try {
     const res = await AxiosInstance.post(`/api/${type}`)
-    return res.data.articles || [] // Ensure you return articles or an empty array
+    return res?.data?.articles ?? [] // Ensure you return articles or an empty array
   } catch (error) {
     console.error(`Error: ${error}`)
     throw error // Rethrow error to be handled by useQuery

@@ -1,17 +1,18 @@
+import { useState } from 'react'
 import Box from '@mui/material/Box'
-import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
 import Link from '@mui/material/Link'
 import IconButton from '@mui/material/IconButton'
 import SwipeableDrawer from '@mui/material/SwipeableDrawer'
+import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import ArrowLeftOutlined from '@mui/icons-material/ArrowLeftOutlined'
 import IosShareOutlined from '@mui/icons-material/IosShareOutlined'
 import Background from '/assets/bg.webp'
-import PropTypes from 'prop-types'
-import Tooltip from '@mui/material/Tooltip'
-import { useState } from 'react'
 import AlertDialog from '../Dialog/Dialog'
+import ArticleLabel from '../Chip/ArticleLabel'
+import PropTypes from 'prop-types'
+import './FSD.css'
 
 const FullScreenDrawer = ({
   category = 'headlines',
@@ -37,10 +38,11 @@ const FullScreenDrawer = ({
         open={open}
         onClose={handleClose}
         onOpen={handleClose}
+        className='swipeable-drawer'
         sx={{
           '& .MuiPaper-root': {
             height: '100vh',
-            background: `url(${article?.urlToImage || Background})`,
+            background: `url(${article?.urlToImage ?? Background})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             display: 'flex',
@@ -83,17 +85,23 @@ const FullScreenDrawer = ({
               />
             </IconButton>
           </Tooltip>
-          <IconButton
-            onClick={handleDialogOpen}
-            aria-label='share'
-            size='large'
-            color='default'
-            sx={{
-              filter: 'invert()',
-            }}
+          <Tooltip
+            title={'Share'}
+            arrow
+            enterDelay={3000}
           >
-            <IosShareOutlined fontSize='small' />
-          </IconButton>
+            <IconButton
+              onClick={handleDialogOpen}
+              aria-label='share'
+              size='large'
+              color='default'
+              sx={{
+                filter: 'invert()',
+              }}
+            >
+              <IosShareOutlined fontSize='small' />
+            </IconButton>
+          </Tooltip>
         </Box>
 
         <Box
@@ -120,28 +128,17 @@ const FullScreenDrawer = ({
               flexDirection: { xs: 'row', sm: 'column' },
             }}
           >
-            <Chip
+            <ArticleLabel
+              label={category}
               color='primary'
-              label={
-                <Typography
-                  variant='h6'
-                  fontFamily={'var(--font-title)'}
-                >
-                  {category}
-                </Typography>
-              }
+              context='h6'
             />
+
             {['author', 'publishDate', 'publishTime'].map((text) => (
-              <Chip
+              <ArticleLabel
                 key={text}
-                label={
-                  <Typography
-                    variant='h6'
-                    fontFamily={'var(--font-title)'}
-                  >
-                    {article && article[text]}
-                  </Typography>
-                }
+                label={article[text]}
+                context='h6'
               />
             ))}
           </Box>
@@ -165,7 +162,7 @@ const FullScreenDrawer = ({
               variant='body1'
               fontFamily={'var(--font-body)'}
             >
-              {article?.description || altDescription}
+              {article?.description ?? altDescription}
               <Link
                 href={article?.url}
                 target='_blank'
@@ -180,7 +177,7 @@ const FullScreenDrawer = ({
       <AlertDialog
         shareTitle={article.title}
         shareUrl={article.url}
-        shareText={article.description || altDescription}
+        shareText={article.description ?? altDescription}
         open={dialogOpen}
         handleClose={handleDialogClose}
       />

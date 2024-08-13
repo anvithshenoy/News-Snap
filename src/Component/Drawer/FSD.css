@@ -1,0 +1,12 @@
+@keyframes animateBg {
+  from {
+    transform: translateY(100vh);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.swipeable-drawer .MuiPaper-root {
+  animation: animateBg 0.5s linear;
+}

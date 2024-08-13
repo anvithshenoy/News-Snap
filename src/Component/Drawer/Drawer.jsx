@@ -40,25 +40,38 @@ const Drawer = ({ categories, handleSlideClick }) => {
   return (
     <>
       <Tabs
+        selectionFollowsFocus
         value={value}
         onChange={handleChange}
-        variant='scrollable'
+        variant='standard'
         sx={{
           position: 'sticky',
           top: 0,
           background: 'var(--bg-paper)',
           backgroundBlendMode: 'multiply',
           zIndex: 999,
-          paddingInline: { sm: 1, xs: 3 },
+          paddingInline: { sm: 3, xs: 3 },
+          '& .MuiTabs-indicator': {
+            background: '#1976d2',
+            height: '75%',
+            bottom: '12.5%',
+            borderRadius: '5rem',
+          },
         }}
       >
         {categories.map((category, index) => (
           <Tab
+            disableRipple
             key={index}
             label={
               <Typography
                 variant='h6'
                 fontFamily={'var(--font-title)'}
+                sx={{
+                  color: value === index ? 'var(--light)' : 'inherit',
+                  textShadow: value === index && '0 0 4px var(--dark)',
+                  zIndex: 10000,
+                }}
               >
                 {category}
               </Typography>
@@ -73,6 +86,7 @@ const Drawer = ({ categories, handleSlideClick }) => {
         paddingBlock={1}
         paddingInline={2}
         gap={2}
+        marginInline={2}
       >
         {isLoading ? (
           <Box
@@ -95,8 +109,10 @@ const Drawer = ({ categories, handleSlideClick }) => {
               flexDirection={'column'}
               justifyContent={'flex-start'}
               alignItems={'center'}
-              gap={1.5}
-              width={isMobile ? '100%' : '33%'}
+              gap={2}
+              marginTop={`calc(columns.length * 2)`}
+              width={isMobile ? '100%' : `calc(100%/${columns.length})`}
+              sx={{ animation: 'animateBg 0.5s linear' }}
             >
               {articles
                 .filter((_, index) => index % columns.length === topIndex)

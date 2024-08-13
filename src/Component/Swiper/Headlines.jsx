@@ -40,7 +40,7 @@ const Headlines = ({ headlines, handleSlideClick }) => {
             <SwiperSlide
               key={article?.id}
               style={{
-                background: `#11111175 url(${article?.urlToImage || logo})`,
+                backgroundImage: `url(${article?.urlToImage ?? logo})`,
               }}
               onClick={() => handleSlideClick(article)}
             >
@@ -53,6 +53,22 @@ const Headlines = ({ headlines, handleSlideClick }) => {
                 Read more details
               </Typography>
               <div className='slide'>
+                <Typography
+                  variant='body1'
+                  fontFamily={'var(--font-title)'}
+                  sx={{
+                    position: 'absolute',
+                    top: 10,
+                    paddingInline: 1,
+                    borderRadius: 5,
+                    // background: 'var(--bg-paper)',
+                    // backgroundBlendMode: 'multiply',
+                    color: 'var(--light)',
+                    textShadow: '2px 2px 2px #111',
+                  }}
+                >
+                  {article.publishTime}
+                </Typography>
                 <Typography
                   variant='h6'
                   fontFamily={'var(--font-body)'}
