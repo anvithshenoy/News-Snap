@@ -24,16 +24,17 @@ const Headlines = ({ headlines, handleSlideClick }) => {
             delay: 7000,
             pauseOnMouseEnter: true,
           }}
-          centeredSlides={true}
           cardsEffect={{
             perSlideOffset: 75,
             perSlideRotate: 3,
             rotate: false,
             slideShadows: true,
           }}
+          centeredSlides={true}
           effect='cards'
           grabCursor={true}
           modules={[Autoplay, EffectCards]}
+          mousewheel={true}
           rewind={true}
         >
           {headlines.map((article) => (
@@ -50,7 +51,7 @@ const Headlines = ({ headlines, handleSlideClick }) => {
                 className='read-me'
                 fontFamily={'var(--font-title)'}
               >
-                Read more details
+                View Article
               </Typography>
               <div className='slide'>
                 <Typography
@@ -61,8 +62,6 @@ const Headlines = ({ headlines, handleSlideClick }) => {
                     top: 10,
                     paddingInline: 1,
                     borderRadius: 5,
-                    // background: 'var(--bg-paper)',
-                    // backgroundBlendMode: 'multiply',
                     color: 'var(--light)',
                     textShadow: '2px 2px 2px #111',
                   }}

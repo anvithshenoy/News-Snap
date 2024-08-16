@@ -1,4 +1,5 @@
 import { useState } from 'react'
+
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import Link from '@mui/material/Link'
@@ -7,12 +8,13 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import ArrowLeftOutlined from '@mui/icons-material/ArrowLeftOutlined'
-import IosShareOutlined from '@mui/icons-material/IosShareOutlined'
-import Background from '/assets/bg.webp'
-import AlertDialog from '../Dialog/Dialog'
-import ArticleLabel from '../Chip/ArticleLabel'
-import PropTypes from 'prop-types'
+import ShareOutlined from '@mui/icons-material/IosShareOutlined'
+
 import './FSD.css'
+import Background from '/assets/bg.webp'
+import ArticleLabel from '../Chip/ArticleLabel'
+import MediaDialog from '../Dialog/Dialog'
+import PropTypes from 'prop-types'
 
 const FullScreenDrawer = ({
   category = 'headlines',
@@ -85,23 +87,6 @@ const FullScreenDrawer = ({
               />
             </IconButton>
           </Tooltip>
-          <Tooltip
-            title={'Share'}
-            arrow
-            enterDelay={3000}
-          >
-            <IconButton
-              onClick={handleDialogOpen}
-              aria-label='share'
-              size='large'
-              color='default'
-              sx={{
-                filter: 'invert()',
-              }}
-            >
-              <IosShareOutlined fontSize='small' />
-            </IconButton>
-          </Tooltip>
         </Box>
 
         <Box
@@ -117,6 +102,31 @@ const FullScreenDrawer = ({
             flexDirection: { xs: 'column', sm: 'row' },
           }}
         >
+          <Tooltip
+            title={'Share'}
+            arrow
+            enterDelay={3000}
+          >
+            <IconButton
+              onClick={handleDialogOpen}
+              aria-label='share'
+              size='large'
+              sx={{
+                position: 'absolute',
+                top: -25,
+                right: 25,
+                background: '#1976d2',
+                [`&:hover`]: {
+                  background: '#1976d2ef',
+                },
+              }}
+            >
+              <ShareOutlined
+                htmlColor='var(--light)'
+                fontSize='small'
+              />
+            </IconButton>
+          </Tooltip>
           <Box
             display={'flex'}
             flexWrap={'wrap'}
@@ -130,15 +140,21 @@ const FullScreenDrawer = ({
           >
             <ArticleLabel
               label={category}
-              color='primary'
+              category='Category'
+              chipColor={'primary'}
               context='h6'
             />
 
-            {['author', 'publishDate', 'publishTime'].map((text) => (
+            {[
+              { text: 'author', categoryLabel: 'Publisher' },
+              { text: 'publishDate', categoryLabel: 'Published Date' },
+              { text: 'publishTime', categoryLabel: 'Published Time' },
+            ].map(({ text, categoryLabel }, index) => (
               <ArticleLabel
-                key={text}
-                label={article[text]}
+                key={index}
+                category={categoryLabel}
                 context='h6'
+                label={article[text]}
               />
             ))}
           </Box>
@@ -174,7 +190,7 @@ const FullScreenDrawer = ({
         </Box>
       </SwipeableDrawer>
 
-      <AlertDialog
+      <MediaDialog
         shareTitle={article.title}
         shareUrl={article.url}
         shareText={article.description ?? altDescription}

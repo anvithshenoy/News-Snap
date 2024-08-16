@@ -15,7 +15,7 @@ import {
   ContentCopy,
 } from '@mui/icons-material'
 
-const AlertDialog = ({
+const MediaDialog = ({
   shareTitle,
   shareUrl,
   shareText,
@@ -113,7 +113,7 @@ const AlertDialog = ({
   )
 }
 
-AlertDialog.propTypes = {
+MediaDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   shareTitle: PropTypes.string.isRequired,
@@ -121,4 +121,4 @@ AlertDialog.propTypes = {
   shareText: PropTypes.string.isRequired,
 }
 
-export default AlertDialog
+export default MediaDialog

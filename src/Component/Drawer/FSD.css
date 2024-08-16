@@ -8,5 +8,5 @@
 }
 
 .swipeable-drawer .MuiPaper-root {
-  animation: animateBg 0.5s linear;
+  animation: animateBg 0.25s linear;
 }
