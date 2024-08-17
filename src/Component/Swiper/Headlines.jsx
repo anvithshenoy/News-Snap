@@ -4,6 +4,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/effect-cards'
 import './Swiper.css'
+import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import logo from '/assets/newspaper.webp'
 import PropTypes from 'prop-types'
@@ -11,24 +12,47 @@ import PropTypes from 'prop-types'
 const Headlines = ({ headlines, handleSlideClick }) => {
   return (
     <>
-      <Typography
-        variant='h3'
-        fontFamily={'var(--font-title)'}
-        className='top-heading'
-      >
-        Today&apos;s Top {headlines.length} Headlines
-      </Typography>
       <div id='slide-container'>
+        <Box
+          display={'flex'}
+          flexDirection={'column'}
+          alignContent={'center'}
+          justifyContent={'center'}
+          paddingInlineStart={{ sm: 15 }}
+        >
+          <Typography
+            variant='h1'
+            fontFamily={'var(--font-title)'}
+            align='center'
+            color={'var(--light)'}
+            sx={{ filter: 'drop-shadow(0 0 0.15rem var(--dark))' }}
+          >
+            Top Headlines
+          </Typography>
+          <Typography
+            variant='h6'
+            color={'#1976d2'}
+            fontFamily={'var(--font-body)'}
+            textTransform={'uppercase'}
+            align='center'
+            sx={{
+              background: 'var(--bg-paper)',
+              backgroundBlendMode: 'multiply',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'cover',
+            }}
+          >
+            Snap into the world&apos;s stories.
+          </Typography>
+        </Box>
+
         <Swiper
           autoplay={{
-            delay: 7000,
+            delay: 10000,
             pauseOnMouseEnter: true,
           }}
           cardsEffect={{
-            perSlideOffset: 75,
-            perSlideRotate: 3,
-            rotate: false,
-            slideShadows: true,
+            perSlideOffset: 25,
           }}
           centeredSlides={true}
           effect='cards'

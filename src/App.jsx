@@ -1,11 +1,13 @@
 import { useState } from 'react'
-import Container from '@mui/material/Container'
+import { Box } from '@mui/material'
 import Drawer from './Component/Drawer/Drawer'
 import FullScreenDrawer from './Component/Drawer/FullscreenDrawer'
 import Headlines from './Component/Swiper/Headlines'
 import { fetchNews } from './utils/fetchNews'
 import { useQuery } from '@tanstack/react-query'
 import Spinner from './Component/Spinner/BookSpinner'
+import SearchAppBar from './Component/Appbar/Appbar'
+import { Container } from '@mui/material'
 
 const categories = [
   'Business',
@@ -13,6 +15,7 @@ const categories = [
   'General',
   'Health',
   'Science',
+  'Sports',
   'Technology',
 ]
 
@@ -43,34 +46,28 @@ const App = () => {
   }
 
   return isLoading ? (
-    <Container
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100vw',
-        height: '100vh',
-      }}
+    <Box
+      display={'flex'}
+      justifyContent={'center'}
+      alignItems={'center'}
+      width={'100%'}
+      height={'100%'}
     >
       <Spinner />
-    </Container>
+    </Box>
   ) : error ? (
     <pre>Error</pre>
   ) : (
-    <Container
-      disableGutters
-      maxWidth='xl'
-    >
-      <>
-        <Headlines
-          headlines={headlines}
-          handleSlideClick={handleSlideClick}
-        />
-        <Drawer
-          categories={categories}
-          handleSlideClick={handleSlideClick}
-        />
-      </>
+    <Box width={'100%'}>
+      <SearchAppBar />
+      <Headlines
+        headlines={headlines}
+        handleSlideClick={handleSlideClick}
+      />
+      <Drawer
+        categories={categories}
+        handleSlideClick={handleSlideClick}
+      />
       {selectedArticle && (
         <FullScreenDrawer
           category={selectedArticle.category}
@@ -79,7 +76,7 @@ const App = () => {
           article={selectedArticle.article}
         />
       )}
-    </Container>
+    </Box>
   )
 }
 

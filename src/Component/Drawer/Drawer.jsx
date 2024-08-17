@@ -40,22 +40,94 @@ const Drawer = ({ categories, handleSlideClick }) => {
 
   return (
     <>
+      <Box
+        sx={{
+          paddingBlockStart: 2,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          background: 'var(--bg-paper)',
+          backgroundBlendMode: 'multiply',
+          filter: 'drop-shadow(0 0 0.5rem #111111cc)',
+        }}
+      >
+        <Typography
+          variant='h3'
+          mt={2}
+          fontFamily={'var(--font-title)'}
+          align='center'
+        >
+          Top {categories[value]} Stories
+        </Typography>
+        <Box
+          display={'flex'}
+          flexDirection={isMobile ? 'column' : 'row'}
+          paddingBlock={1}
+          paddingInline={1}
+          gap={1.5}
+          marginInline={1}
+        >
+          {isLoading ? (
+            <Box
+              display={'flex'}
+              justifyContent={'center'}
+              alignItems={'center'}
+              width={'100%'}
+              minHeight={300}
+              height={'100%'}
+            >
+              <Spinner />
+            </Box>
+          ) : error ? (
+            <div>Error loading news: {error.message}</div>
+          ) : (
+            columns.map((topIndex) => (
+              <Box
+                key={topIndex}
+                display={'flex'}
+                flexDirection={'column'}
+                justifyContent={'flex-start'}
+                alignItems={'flex-start'}
+                gap={1.5}
+                width={isMobile ? '100%' : `calc(100%/${columns.length})`}
+                sx={{
+                  animation: `animateBg ${
+                    (topIndex + 0.25) / columns.length
+                  }s linear`,
+                }}
+              >
+                {articles
+                  .filter((_, index) => index % columns.length === topIndex)
+                  .map((article) => (
+                    <ArticleCard
+                      key={article.id}
+                      article={article}
+                      category={categories[value]}
+                      handleSlideClick={() =>
+                        handleSlideClick(article, categories[value])
+                      }
+                    />
+                  ))}
+              </Box>
+            ))
+          )}
+        </Box>
+      </Box>
       <Container
         disableGutters
         sx={{
           position: 'sticky',
-          top: 5,
-          background: '#ffffff75',
+          bottom: 10,
+          background: '#f2f2f275',
           backgroundBlendMode: 'multiply',
           backdropFilter: 'blur(0.25rem)',
           zIndex: 999,
           width: { xs: '95%', sm: 'fit-content' },
           paddingInline: 1,
-          border: '1px solid #1976d2',
           borderRadius: 10,
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          boxShadow: '0 0 8px #1976d2',
         }}
       >
         <Tabs
@@ -93,60 +165,6 @@ const Drawer = ({ categories, handleSlideClick }) => {
           ))}
         </Tabs>
       </Container>
-
-      <Box
-        display={'flex'}
-        flexDirection={isMobile ? 'column' : 'row'}
-        paddingBlock={1}
-        paddingInline={1}
-        gap={1.5}
-        marginInline={1}
-      >
-        {isLoading ? (
-          <Box
-            display={'flex'}
-            justifyContent={'center'}
-            alignItems={'center'}
-            width={'100%'}
-            minHeight={300}
-            height={'100%'}
-          >
-            <Spinner />
-          </Box>
-        ) : error ? (
-          <div>Error loading news: {error.message}</div>
-        ) : (
-          columns.map((topIndex) => (
-            <Box
-              key={topIndex}
-              display={'flex'}
-              flexDirection={'column'}
-              justifyContent={'flex-start'}
-              alignItems={'flex-start'}
-              gap={1.5}
-              width={isMobile ? '100%' : `calc(100%/${columns.length})`}
-              sx={{
-                animation: `animateBg ${
-                  (topIndex + 0.25) / columns.length
-                }s linear`,
-              }}
-            >
-              {articles
-                .filter((_, index) => index % columns.length === topIndex)
-                .map((article) => (
-                  <ArticleCard
-                    key={article.id}
-                    article={article}
-                    category={categories[value]}
-                    handleSlideClick={() =>
-                      handleSlideClick(article, categories[value])
-                    }
-                  />
-                ))}
-            </Box>
-          ))
-        )}
-      </Box>
     </>
   )
 }

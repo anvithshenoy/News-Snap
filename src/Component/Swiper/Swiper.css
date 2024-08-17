@@ -2,11 +2,12 @@
   width: 100%;
   overflow: hidden;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
 
   .swiper {
-    width: max(20rem, 20vw);
+    width: max(20rem, 25vw);
     /* max-width: 100vw; */
     aspect-ratio: 3/4;
     display: flex;
@@ -27,7 +28,7 @@
       background-color: #111111aa;
       background-position: center;
       background-repeat: no-repeat;
-      background-size: contain;
+      background-size: cover;
       overflow: hidden;
       filter: drop-shadow(-1px 0 1px var(--dark))
         drop-shadow(1px 0 1px var(--dark));

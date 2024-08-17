@@ -22,16 +22,18 @@ const MediaDialog = ({
   open,
   handleClose,
 }) => {
-  const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`
+  const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(
+    shareText + shareUrl
+  )}`
   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-    shareText
+    shareText + shareUrl
   )}`
   const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
     shareUrl
   )}`
   const emailUrl = `mailto:?subject=${encodeURIComponent(
     shareTitle
-  )}&body=${encodeURIComponent(shareText)}`
+  )}&body=${encodeURIComponent(shareText + shareUrl)}`
 
   const [isOpen, setIsOpen] = useState(open)
   const [copySuccess, setCopySuccess] = useState('')
@@ -73,7 +75,7 @@ const MediaDialog = ({
         <DialogTitle id='alert-dialog-title'>Share This Article</DialogTitle>
         <DialogContent>
           <DialogContentText id='alert-dialog-description'>
-            Share this article via your preferred platform:
+            Share this article via your preferred platform
           </DialogContentText>
           <Box
             display='flex'

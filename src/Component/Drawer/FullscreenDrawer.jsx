@@ -166,6 +166,7 @@ const FullScreenDrawer = ({
           <Box
             display={'flex'}
             flexDirection={'column'}
+            maxWidth={{ xs: '90%', sm: '75%' }}
           >
             <Typography
               variant='h4'
@@ -182,6 +183,7 @@ const FullScreenDrawer = ({
               <Link
                 href={article?.url}
                 target='_blank'
+                noWrap
               >
                 read more
               </Link>

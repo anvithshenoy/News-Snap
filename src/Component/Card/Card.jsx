@@ -14,7 +14,7 @@ import ArticleLabel from '../Chip/ArticleLabel'
 import MediaDialog from '../Dialog/Dialog'
 import PropTypes from 'prop-types'
 
-const ArticleCard = ({ article, category, handleSlideClick }) => {
+const ArticleCard = ({ article, category = 'Headlines', handleSlideClick }) => {
   const altDescription = `This content was written by ${article?.author} and published on ${article?.publishDate} at ${article?.publishTime}. For the complete story, click the link to `
   const splitTitle = article.title.split('-')
   const articleSource = splitTitle.pop().trim()
@@ -56,7 +56,7 @@ const ArticleCard = ({ article, category, handleSlideClick }) => {
             alt={`Image for article: ${article.title}`}
             sx={{
               height: article.urlToImage ? '100%' : '35vh',
-              padding: 1,
+              mt: 1,
               paddingBlockEnd: 0,
               maxHeight: '100%',
               width: 'calc(100% - 1rem)',
@@ -67,12 +67,14 @@ const ArticleCard = ({ article, category, handleSlideClick }) => {
           <Tooltip
             title='Share'
             arrow
+            placement='right'
           >
             <IconButton
               onClick={handleDialogOpen}
-              sx={{ position: 'absolute', bottom: 10, right: 10 }}
+              sx={{ position: 'absolute', bottom: 0, right: 10 }}
+              disableRipple
             >
-              <SendOutlined />
+              <SendOutlined htmlColor='var(--light)' />
             </IconButton>
           </Tooltip>
         </Box>
