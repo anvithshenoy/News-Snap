@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay, EffectCards } from 'swiper/modules'
+import { Autoplay, EffectCards, Mousewheel } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/effect-cards'
@@ -48,16 +48,30 @@ const Headlines = ({ headlines, handleSlideClick }) => {
 
         <Swiper
           autoplay={{
-            delay: 10000,
+            delay: 11000,
             pauseOnMouseEnter: true,
           }}
-          cardsEffect={{
-            perSlideOffset: 25,
+          breakpoints={{
+            0: {
+              cardsEffect: {
+                perSlideOffset: 100,
+                rotate: false,
+              },
+            },
+            768: {
+              cardsEffect: {
+                perSlideOffset: 25,
+              },
+              slideToClickedSlide: true,
+              mousewheel: {
+                enabled: true,
+              },
+            },
           }}
           centeredSlides={true}
           effect='cards'
           grabCursor={true}
-          modules={[Autoplay, EffectCards]}
+          modules={[Autoplay, EffectCards, Mousewheel]}
           mousewheel={true}
           rewind={true}
         >

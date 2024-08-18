@@ -7,7 +7,6 @@ import { fetchNews } from './utils/fetchNews'
 import { useQuery } from '@tanstack/react-query'
 import Spinner from './Component/Spinner/BookSpinner'
 import SearchAppBar from './Component/Appbar/Appbar'
-import { Container } from '@mui/material'
 
 const categories = [
   'Business',

@@ -11,7 +11,6 @@ import ArrowLeftOutlined from '@mui/icons-material/ArrowLeftOutlined'
 import ShareOutlined from '@mui/icons-material/IosShareOutlined'
 
 import './FSD.css'
-import Background from '/assets/bg.webp'
 import ArticleLabel from '../Chip/ArticleLabel'
 import MediaDialog from '../Dialog/Dialog'
 import PropTypes from 'prop-types'
@@ -44,13 +43,7 @@ const FullScreenDrawer = ({
         sx={{
           '& .MuiPaper-root': {
             height: '100vh',
-            background: `url(${article?.urlToImage ?? Background})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            background: `${article.urlToImage} && url(${article.urlToImage})`,
           },
         }}
       >
@@ -65,6 +58,7 @@ const FullScreenDrawer = ({
             title={'Back to Homepage'}
             arrow
             enterDelay={3000}
+            placement='right'
           >
             <IconButton
               onClick={handleClose}

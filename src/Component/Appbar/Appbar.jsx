@@ -11,28 +11,9 @@ import SearchIcon from '@mui/icons-material/Search'
 import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import ListItemText from '@mui/material/ListItemText'
-import {
-  Collapse,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  Divider,
-} from '@mui/material'
-import {
-  Home,
-  Person as About,
-  ContactEmergency as Contact,
-  BusinessCenterOutlined,
-  CategoryOutlined,
-  ComputerOutlined,
-  ExpandLess,
-  ExpandMore,
-  HealthAndSafetyOutlined,
-  LocalActivity,
-  LocationCityRounded,
-  ScienceOutlined,
-  SportsScore,
-} from '@mui/icons-material'
+import { ListItem, ListItemButton, ListItemIcon, Divider } from '@mui/material'
+import { Home } from '@mui/icons-material'
+import WeatherChip from '../Chip/WeatherChip'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -78,228 +59,58 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const SearchAppBar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const [open, setOpen] = useState(true)
 
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open)
   }
 
-  const handleClick = () => {
-    setOpen(!open)
-  }
-
   const drawerContent = (
-    <Box
-      width={250}
-      role='presentation'
+    <List
+      sx={{
+        height: '100%',
+        background: 'var(--bg-paper)',
+        backgroundBlendMode: 'multiply',
+      }}
     >
-      <List>
-        <ListItem>
-          <ListItemText
-            primary={
-              <Typography
-                variant='h3'
-                align='center'
-                fontFamily={'var(--font-title)'}
-              >
-                News Snap
-              </Typography>
-            }
-          />
-        </ListItem>
-        <Divider />
-        <ListItemButton>
-          <ListItemIcon>
-            <Home />
-          </ListItemIcon>
-          <ListItemText
-            primary={
-              <Typography
-                variant='body1'
-                fontFamily={'var(--font-body)'}
-                textTransform={'uppercase'}
-              >
-                Home
-              </Typography>
-            }
-          />
-        </ListItemButton>
-        <ListItemButton>
-          <ListItemIcon>
-            <About />
-          </ListItemIcon>
-          <ListItemText
-            primary={
-              <Typography
-                variant='body1'
-                fontFamily={'var(--font-body)'}
-                textTransform={'uppercase'}
-              >
-                About
-              </Typography>
-            }
-          />
-        </ListItemButton>
-        <ListItemButton>
-          <ListItemIcon>
-            <Contact />
-          </ListItemIcon>
-          <ListItemText
-            primary={
-              <Typography
-                variant='body1'
-                fontFamily={'var(--font-body)'}
-                textTransform={'uppercase'}
-              >
-                Contact
-              </Typography>
-            }
-          />
-        </ListItemButton>
-        <Divider />
-        <ListItemButton onClick={handleClick}>
-          <ListItemIcon>
-            <CategoryOutlined />
-          </ListItemIcon>
-          <ListItemText
-            primary={
-              <Typography
-                variant='body1'
-                fontFamily={'var(--font-body)'}
-                textTransform={'uppercase'}
-              >
-                Category
-              </Typography>
-            }
-          />
-          {open ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-        <Collapse
-          in={open}
-          timeout='auto'
-          unmountOnExit
-        >
-          <List
-            component='div'
-            disablePadding
+      <ListItem>
+        <ListItemText>
+          <Typography
+            variant='h3'
+            align='center'
+            fontFamily={'var(--font-title)'}
+            gutterBottom
           >
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <BusinessCenterOutlined />
-              </ListItemIcon>
-              <ListItemText
-                primary={
-                  <Typography
-                    variant='body2'
-                    fontFamily={'var(--font-body)'}
-                    textTransform={'uppercase'}
-                  >
-                    Business
-                  </Typography>
-                }
-              />
-            </ListItemButton>
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <LocalActivity />
-              </ListItemIcon>
-              <ListItemText
-                primary={
-                  <Typography
-                    variant='body2'
-                    fontFamily={'var(--font-body)'}
-                    textTransform={'uppercase'}
-                  >
-                    Entertainment
-                  </Typography>
-                }
-              />
-            </ListItemButton>
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <LocationCityRounded />
-              </ListItemIcon>
-              <ListItemText
-                primary={
-                  <Typography
-                    variant='body2'
-                    fontFamily={'var(--font-body)'}
-                    textTransform={'uppercase'}
-                  >
-                    General
-                  </Typography>
-                }
-              />
-            </ListItemButton>
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <HealthAndSafetyOutlined />
-              </ListItemIcon>
-              <ListItemText
-                primary={
-                  <Typography
-                    variant='body2'
-                    fontFamily={'var(--font-body)'}
-                    textTransform={'uppercase'}
-                  >
-                    Health
-                  </Typography>
-                }
-              />
-            </ListItemButton>
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <ScienceOutlined />
-              </ListItemIcon>
-              <ListItemText
-                primary={
-                  <Typography
-                    variant='body2'
-                    fontFamily={'var(--font-body)'}
-                    textTransform={'uppercase'}
-                  >
-                    Science
-                  </Typography>
-                }
-              />
-            </ListItemButton>
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <SportsScore />
-              </ListItemIcon>
-              <ListItemText
-                primary={
-                  <Typography
-                    variant='body2'
-                    fontFamily={'var(--font-body)'}
-                    textTransform={'uppercase'}
-                  >
-                    Sports
-                  </Typography>
-                }
-              />
-            </ListItemButton>
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <ComputerOutlined />
-              </ListItemIcon>
-              <ListItemText
-                primary={
-                  <Typography
-                    variant='body2'
-                    fontFamily={'var(--font-body)'}
-                    textTransform={'uppercase'}
-                  >
-                    Technology
-                  </Typography>
-                }
-              />
-            </ListItemButton>
-            <Divider />
-          </List>
-        </Collapse>
-      </List>
-    </Box>
+            News Snap
+          </Typography>
+        </ListItemText>
+      </ListItem>
+
+      <Divider />
+      <ListItem
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      >
+        <WeatherChip />
+      </ListItem>
+      <Divider />
+
+      <ListItemButton>
+        <ListItemIcon>
+          <Home />
+        </ListItemIcon>
+        <ListItemText
+          primary={
+            <Typography
+              variant='body1'
+              fontFamily={'var(--font-title)'}
+            >
+              Home
+            </Typography>
+          }
+        />
+      </ListItemButton>
+
+      <Divider />
+    </List>
   )
 
   return (
@@ -314,7 +125,7 @@ const SearchAppBar = () => {
           color: '#1976d2',
         }}
       >
-        <Toolbar>
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
           <IconButton
             size='large'
             edge='start'
@@ -325,18 +136,7 @@ const SearchAppBar = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant='h4'
-            noWrap
-            component='div'
-            fontFamily={'var(--font-title)'}
-            sx={{
-              flexGrow: 1,
-              display: { xs: 'none', sm: 'block' },
-            }}
-          >
-            News Snap
-          </Typography>
+
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -348,6 +148,7 @@ const SearchAppBar = () => {
           </Search>
         </Toolbar>
       </AppBar>
+
       <Drawer
         anchor='left'
         open={drawerOpen}

@@ -8,5 +8,13 @@
 }
 
 .swipeable-drawer .MuiPaper-root {
+  background: url(/assets/bg.webp);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-clip: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   animation: animateBg 0.25s linear;
 }

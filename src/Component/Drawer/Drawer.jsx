@@ -43,6 +43,7 @@ const Drawer = ({ categories, handleSlideClick }) => {
       <Box
         sx={{
           paddingBlockStart: 2,
+          paddingBlockEnd: 10,
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
           background: 'var(--bg-paper)',
@@ -115,8 +116,9 @@ const Drawer = ({ categories, handleSlideClick }) => {
       <Container
         disableGutters
         sx={{
-          position: 'sticky',
+          position: 'fixed',
           bottom: 10,
+          left: { xs: 0, sm: '25%' },
           background: '#f2f2f275',
           backgroundBlendMode: 'multiply',
           backdropFilter: 'blur(0.25rem)',
