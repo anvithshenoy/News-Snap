@@ -12,11 +12,13 @@ import SearchIcon from '@mui/icons-material/Search'
 import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
-import ListItemText from '@mui/material/ListItemText'
 import PropTypes from 'prop-types'
 import debounce from 'lodash.debounce'
 import BitcoinChip from '../Chip/Bitcoin'
 import WeatherCard from '../Card/WeatherCard'
+import ExchangeChip from '../Chip/ExchangeChip'
+import ListItemButton from '@mui/material/ListItemButton'
+import { useNavigate } from 'react-router-dom'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -72,6 +74,7 @@ const debouncedSearchQuery = debounce((value, setSearchQuery) => {
 const SearchAppBar = ({ setSearchQuery, children }) => {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [value, setValue] = useState('')
+  const navigate = useNavigate()
 
   const handleSearchChange = useCallback(
     (e) => {
@@ -101,34 +104,47 @@ const SearchAppBar = ({ setSearchQuery, children }) => {
         height: '100%',
         background: 'var(--bg-paper)',
         backgroundBlendMode: 'multiply',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       <ListItem>
-        <ListItemText>
+        <ListItemButton onClick={() => navigate('/')}>
           <Typography
             variant='h3'
             align='center'
+            width={'100%'}
             fontFamily={'var(--font-title)'}
             gutterBottom
           >
             News Snap
           </Typography>
-        </ListItemText>
+        </ListItemButton>
       </ListItem>
-
       <Divider />
+
       <ListItem
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: 1,
+        }}
       >
         <WeatherCard />
+        <ListItem
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 1,
+          }}
+        >
+          <BitcoinChip />
+          <ExchangeChip />
+        </ListItem>
       </ListItem>
-      <ListItem
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-      >
-        <BitcoinChip />
-      </ListItem>
-
-      <Divider />
 
       {/* <ListItemButton>
         <ListItemIcon>

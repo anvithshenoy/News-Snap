@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import BitcoinContext from './BitcoinContext'
 import PropTypes from 'prop-types'
-import bitCoinPrice from '../../utils/fetchCurrency'
+import { bitCoinPrice } from '../../utils/fetchCurrency'
 
 const fetchBitcoinPrice = async () => {
   try {

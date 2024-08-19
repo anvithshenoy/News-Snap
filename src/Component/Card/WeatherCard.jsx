@@ -46,11 +46,11 @@ const WeatherCard = () => {
     <Card
       sx={{
         display: 'flex',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         alignItems: 'center',
-        width: 275,
-        maxWidth: 275,
+        maxWidth: '100%',
         mixBlendMode: 'multiply',
+        paddingInline: 1,
       }}
     >
       <CardMedia
@@ -66,17 +66,25 @@ const WeatherCard = () => {
           objectFit: 'contain',
         }}
       />
-      <CardContent>
+      <CardContent
+        sx={{
+          paddingInline: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         <Typography
           variant='h5'
           fontFamily='var(--font-title)'
           noWrap
           sx={{
             fontVariantNumeric: 'tabular-nums',
-            paddingInlineStart: 0.15,
             display: 'flex',
-            justifyContent: 'space-between',
+            justifyContent: 'flex-end',
             width: '100%',
+            padding: 0,
           }}
         >
           {weatherLabel}

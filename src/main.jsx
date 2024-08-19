@@ -5,23 +5,43 @@ import './index.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import BitcoinProvider from './context/Bitcoin/BitcoinProvider.jsx'
 import WeatherProvider from './context/Weather/WeatherProvider.jsx'
-import { CategoryProvider } from './context/Category/CategoryProvider.jsx'
-import { SearchProvider } from './context/Search/SearchProvider.jsx'
+import CurrencyProvider from './context/currency/CurrencyProvider.jsx'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom'
 
 const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <CategoryProvider>
+    <Router>
+      <QueryClientProvider client={queryClient}>
         <WeatherProvider>
           <BitcoinProvider>
-            <SearchProvider>
-              <App />
-            </SearchProvider>
+            <CurrencyProvider>
+              <Routes>
+                <Route
+                  path='/'
+                  element={<App />}
+                />
+
+                <Route
+                  path='*'
+                  element={
+                    <Navigate
+                      to={'/'}
+                      replace
+                    />
+                  }
+                />
+              </Routes>
+            </CurrencyProvider>
           </BitcoinProvider>
         </WeatherProvider>
-      </CategoryProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </Router>
   </StrictMode>
 )
