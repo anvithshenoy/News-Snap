@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
 import {
   Card,
   CardContent,
@@ -11,24 +10,13 @@ import {
 import LocationOnOutlined from '@mui/icons-material/LocationOnOutlined'
 import LocationOffOutlined from '@mui/icons-material/LocationOffOutlined'
 import { SyncOutlined, SwapVertOutlined } from '@mui/icons-material'
-import weatherCondition from '../../utils/fetchWeather'
 import CloudQuestion from '/assets/cloud-question.svg'
 import CloudSlash from '/assets/cloud-slash.svg'
+import { useWeather } from '../../context/Weather/WeatherContext'
 
-const WeatherChip = () => {
+const WeatherCard = () => {
   const [isCelsius, setIsCelsius] = useState(true)
-
-  const {
-    data: weather,
-    error,
-    isLoading,
-    refetch,
-  } = useQuery({
-    queryKey: ['weather'],
-    queryFn: weatherCondition,
-    refetchInterval: 60000,
-    retry: false,
-  })
+  const { weather, isLoading, error, refetch } = useWeather()
 
   const handleToggle = () => {
     setIsCelsius(!isCelsius)
@@ -135,4 +123,4 @@ const WeatherChip = () => {
   )
 }
 
-export default WeatherChip
+export default WeatherCard

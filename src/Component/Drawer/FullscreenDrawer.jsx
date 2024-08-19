@@ -43,7 +43,11 @@ const FullScreenDrawer = ({
         sx={{
           '& .MuiPaper-root': {
             height: '100vh',
-            background: `${article.urlToImage} && url(${article.urlToImage})`,
+            backgroundImage: `url(${article?.urlToImage || '/assets/bg.webp'})`,
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            backgroundClip: 'border-box',
           },
         }}
       >
@@ -64,17 +68,14 @@ const FullScreenDrawer = ({
               onClick={handleClose}
               aria-label='close'
               size='small'
-              color='default'
-              sx={{
-                filter: 'invert()',
-              }}
             >
               <ArrowLeftOutlined
                 fontSize='large'
                 sx={{
+                  color: article?.urlToImage ? '#1976d2' : 'var(--light)',
                   transform: 'rotate(0)',
                   transition: 'transform 0.3s ease-in-out',
-                  [`&:hover`]: {
+                  '&:hover': {
                     transform: 'rotate(-90deg)',
                   },
                 }}

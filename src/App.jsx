@@ -21,6 +21,7 @@ const categories = [
 const App = () => {
   const [selectedArticle, setSelectedArticle] = useState(null)
   const [openDialog, setOpenDialog] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
 
   const {
     data: headlines = [],
@@ -57,14 +58,14 @@ const App = () => {
   ) : error ? (
     <pre>Error</pre>
   ) : (
-    <Box width={'100%'}>
-      <SearchAppBar />
+    <SearchAppBar setSearchQuery={setSearchQuery}>
       <Headlines
         headlines={headlines}
         handleSlideClick={handleSlideClick}
       />
       <Drawer
         categories={categories}
+        searchQuery={searchQuery}
         handleSlideClick={handleSlideClick}
       />
       {selectedArticle && (
@@ -75,7 +76,7 @@ const App = () => {
           article={selectedArticle.article}
         />
       )}
-    </Box>
+    </SearchAppBar>
   )
 }
 

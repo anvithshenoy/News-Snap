@@ -10,31 +10,42 @@ const ArticleLabel = ({
   context = 'caption',
 }) => {
   return (
-    <Tooltip
-      title={category}
-      arrow
-      enterDelay={3000}
-    >
-      <Chip
-        color={chipColor}
-        label={
-          <Typography
-            variant={context}
-            color={chipColor === 'default' ? 'text.secondary' : 'inherit'}
-            component='div'
-            fontFamily={context !== 'caption' && 'var(--font-title)'}
-          >
-            {label}
-          </Typography>
-        }
-        sx={{
-          ...(chipColor === 'default' && {
-            background: 'var(--bg-paper)',
-            backgroundBlendMode: 'multiply',
-          }),
-        }}
-      />
-    </Tooltip>
+    label !== null && (
+      <Tooltip
+        title={category}
+        arrow
+        enterDelay={3000}
+      >
+        <Chip
+          color={chipColor}
+          label={
+            <Typography
+              variant={context}
+              color={chipColor === 'default' ? 'text.secondary' : 'inherit'}
+              component='div'
+              fontFamily={context !== 'caption' && 'var(--font-title)'}
+              noWrap
+              sx={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {label}
+            </Typography>
+          }
+          sx={{
+            ...(chipColor === 'default' && {
+              background: 'var(--bg-paper)',
+              backgroundBlendMode: 'multiply',
+            }),
+            maxWidth: 150,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+        />
+      </Tooltip>
+    )
   )
 }
 

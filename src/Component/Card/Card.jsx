@@ -17,7 +17,8 @@ import PropTypes from 'prop-types'
 const ArticleCard = ({ article, category = 'Headlines', handleSlideClick }) => {
   const altDescription = `This content was written by ${article?.author} and published on ${article?.publishDate} at ${article?.publishTime}. For the complete story, click the link to `
   const splitTitle = article.title.split('-')
-  const articleSource = splitTitle.pop().trim()
+  // const articleSource =
+  splitTitle.length > 0 && splitTitle.pop().trim()
   const articleTitle = splitTitle.join('-').trim()
 
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -43,16 +44,17 @@ const ArticleCard = ({ article, category = 'Headlines', handleSlideClick }) => {
           <CardMedia
             component='img'
             image={
-              article.urlToImage ??
+              article?.urlToImage ??
               '/assets/newspaper_jvk4ph/newspaper_jvk4ph_c_scale,w_640.webp'
             }
-            srcSet='
-            /assets/newspaper_jvk4ph/newspaper_jvk4ph_c_scale,w_200.webp 200w,
+            srcSet={
+              article?.urlToImage ??
+              `/assets/newspaper_jvk4ph/newspaper_jvk4ph_c_scale,w_200.webp 200w,
             /assets/newspaper_jvk4ph/newspaper_jvk4ph_c_scale,w_377.webp 377w,
             /assets/newspaper_jvk4ph/newspaper_jvk4ph_c_scale,w_514.webp 514w,
             /assets/newspaper_jvk4ph/newspaper_jvk4ph_c_scale,w_607.webp 607w,
-            /assets/newspaper_jvk4ph/newspaper_jvk4ph_c_scale,w_640.webp 640w
-          '
+            /assets/newspaper_jvk4ph/newspaper_jvk4ph_c_scale,w_640.webp 640w`
+            }
             alt={`Image for article: ${article.title}`}
             sx={{
               height: article.urlToImage ? '100%' : '35vh',

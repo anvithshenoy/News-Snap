@@ -13,7 +13,7 @@ export const fetchNews = async (type) => {
 export const searchNews = async (query) => {
   try {
     const res = await AxiosInstance.post(`/api/search?query=${query}`)
-    return res.data // Ensure correct return
+    return res?.data?.articles ?? []
   } catch (error) {
     console.error(`Error: ${error}`)
     throw error // Rethrow error

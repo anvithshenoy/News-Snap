@@ -5,6 +5,8 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  gap: max(2vw, 2rem);
+  padding-block: 2rem;
 
   .swiper {
     width: max(20rem, 25vw);

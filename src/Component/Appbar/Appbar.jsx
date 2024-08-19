@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { styled, alpha } from '@mui/material/styles'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
+import Divider from '@mui/material/Divider'
 import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
@@ -10,10 +11,12 @@ import MenuIcon from '@mui/icons-material/Menu'
 import SearchIcon from '@mui/icons-material/Search'
 import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
-import { ListItem, ListItemButton, ListItemIcon, Divider } from '@mui/material'
-import { Home } from '@mui/icons-material'
-import WeatherChip from '../Chip/WeatherChip'
+import PropTypes from 'prop-types'
+import debounce from 'lodash.debounce'
+import BitcoinChip from '../Chip/Bitcoin'
+import WeatherCard from '../Card/WeatherCard'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -57,12 +60,40 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }))
 
-const SearchAppBar = () => {
+const debouncedSearchQuery = debounce((value, setSearchQuery) => {
+  setSearchQuery(value)
+  // Update URL
+  const newUrl = value
+    ? `/search?query=${encodeURIComponent(value.toLowerCase())}`
+    : `/`
+  window.history.pushState({}, '', newUrl)
+}, 300)
+
+const SearchAppBar = ({ setSearchQuery, children }) => {
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [value, setValue] = useState('')
+
+  const handleSearchChange = useCallback(
+    (e) => {
+      setValue(e.target.value)
+      debouncedSearchQuery(e.target.value, setSearchQuery)
+    },
+    [setSearchQuery]
+  )
 
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open)
   }
+
+  useEffect(() => {
+    // Extract query from URL
+    const params = new URLSearchParams(window.location.search)
+    const query = params.get('query')
+    if (query) {
+      setSearchQuery(query)
+      setValue(query)
+    }
+  }, [setSearchQuery])
 
   const drawerContent = (
     <List
@@ -89,11 +120,17 @@ const SearchAppBar = () => {
       <ListItem
         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
-        <WeatherChip />
+        <WeatherCard />
       </ListItem>
+      <ListItem
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      >
+        <BitcoinChip />
+      </ListItem>
+
       <Divider />
 
-      <ListItemButton>
+      {/* <ListItemButton>
         <ListItemIcon>
           <Home />
         </ListItemIcon>
@@ -107,57 +144,85 @@ const SearchAppBar = () => {
             </Typography>
           }
         />
-      </ListItemButton>
+      </ListItemButton> */}
 
       <Divider />
     </List>
   )
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar
-        position='static'
-        sx={{
-          background: 'var(--bg-paper)',
-          backgroundBlendMode: 'multiply',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          color: '#1976d2',
-        }}
+    <Box width={'100%'}>
+      <Box
+        flexGrow={1}
+        width={'100%'}
       >
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <IconButton
-            size='large'
-            edge='start'
-            color='inherit'
-            aria-label='open drawer'
-            onClick={toggleDrawer(true)}
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
+        <AppBar
+          position='static'
+          sx={{
+            background: 'var(--bg-paper)',
+            backgroundBlendMode: 'multiply',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            color: '#1976d2',
+          }}
+        >
+          <Toolbar>
+            <IconButton
+              size='large'
+              edge='start'
+              color='inherit'
+              aria-label='open drawer'
+              onClick={toggleDrawer(true)}
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
 
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder='Search…'
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-        </Toolbar>
-      </AppBar>
+            <Typography
+              variant='h4'
+              fontFamily={'var(--font-title)'}
+              noWrap
+              flex={1}
+            >
+              News Snap
+            </Typography>
 
-      <Drawer
-        anchor='left'
-        open={drawerOpen}
-        onClose={toggleDrawer(false)}
-      >
-        {drawerContent}
-      </Drawer>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                value={value}
+                placeholder='Search…'
+                inputProps={{ 'aria-label': 'search' }}
+                onChange={handleSearchChange}
+                onFocus={(e) => e.target.select()}
+                onKeyPress={(event) => {
+                  if (event.key === 'Enter') {
+                    handleSearchChange(event)
+                  }
+                }}
+              />
+            </Search>
+          </Toolbar>
+        </AppBar>
+
+        <Drawer
+          anchor='left'
+          open={drawerOpen}
+          onClose={toggleDrawer(false)}
+        >
+          {drawerContent}
+        </Drawer>
+      </Box>
+      {children}
     </Box>
   )
+}
+
+SearchAppBar.propTypes = {
+  setSearchQuery: PropTypes.func.isRequired,
+  children: PropTypes.node,
 }
 
 export default SearchAppBar
